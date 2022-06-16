@@ -26,9 +26,9 @@ public class ArbolJugadas {
 
 	Jugada paseAdelante  = new Jugada("Pasan el balon hacia adelante");
 
-	Jugada jugadaInicial = new Jugada("El Referí indica el inicio");
+	Jugada jugadaInicial = new Jugada("El ReferÃ­ indica el inicio");
 	
-	Jugada saqueMitadCancha= new Jugada("El Referí reinica el partido");
+	Jugada saqueMitadCancha= new Jugada("El ReferÃ­ reinica el partido");
 
 /*
  * Se deben definir variables o algunmecanismo que diferencia si es un pase adelante en area contraria o aria propia
@@ -81,7 +81,7 @@ public class ArbolJugadas {
 	}
 	
 	
-	// TODO Definir el cambio de balon o cambio de jugada como va a ser
+	// TODO Definir el cambio de balon o cambio de jugada como va a ser.
 	
 
 
