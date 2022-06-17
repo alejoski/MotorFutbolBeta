@@ -2,6 +2,7 @@ package co.com.futbol.controller;
 
 import java.util.ArrayList;
 
+import co.com.futbol.actores.Equipo;
 import co.com.futbol.actores.Jugada;
 
 public class ArbolJugadas {
@@ -34,9 +35,19 @@ public class ArbolJugadas {
  * Se deben definir variables o algunmecanismo que diferencia si es un pase adelante en area contraria o aria propia
  * */
 	
-	//TODO cambio posesion definir tiempo probar un partido
+	
+	Equipo equipo;
+	
+	
+	
 
-	public ArbolJugadas() {
+	public ArbolJugadas(Equipo equipo) {
+		
+		
+		int ATAQUE  = equipo.getAtaque();
+		int DEFENSA = equipo.getDefensa();
+		int MEDIO   = equipo.getMedio();
+		int PORTERO = equipo.getPortero();
 		
 		try {
 			
@@ -73,16 +84,15 @@ public class ArbolJugadas {
 		System.out.println("Se carga el arbol de jugadas");
 	}
 	
-	public Jugada iniciarPartido() {
+	public Jugada iniciarPartido() {		
 		
-		
-		return inicio.siguienteJUgada();
-	
+		return inicio.siguienteJUgada();	
 	}
 	
 	
-	// TODO Definir el cambio de balon o cambio de jugada como va a ser.
 	
+	// TODO Definir el cambio de balon o cambio de jugada como va a ser.
+	//TODO cambio posesion definir tiempo probar un partido
 
 
 }
