@@ -27,22 +27,55 @@ public class Partido {
 		arbolJugadasB = new ArbolJugadas(equipoB);
 		
 		//TODO ACA SE PUEDE DECIDIR QUE EQUIPO INICIA EL PARTIDO
-		Jugada jugadasA = arbolJugadasA.iniciarPartido();
-		Jugada jugadasB = arbolJugadasB.iniciarPartido();
+		
+
+		/**
+		 * Numero Aleatorio 
+		 * Si sale 0 Juega equip A
+		 * Si sale 1 juewga equipo B
+		 */		
+		Jugada jugadasA = null;
+		Jugada jugadasB = null;
+		Jugada JugadaGenerica = null;
+		
+		jugadasA = arbolJugadasA.iniciarPartido();
+		jugadasB = arbolJugadasB.iniciarPartido();
+		
+		if ((int) (Math.random() * 2) == 0) 
+			JugadaGenerica = jugadasA;		
+		else 
+			JugadaGenerica = jugadasB;
+			
+		
 		
 		
 		int i=0;
+		
 		char quienJuega = 'A'; 
+		
 			do {
-				System.err.println("+++" + jugadasA.getNombre());
+				//JugadaGenerica.getNombre() ;
 				
 				if(quienJuega == 'A' ) {
-					jugadasA = jugadasA.siguienteJUgada();
+					JugadaGenerica = arbolJugadasA.siguienteJugada(JugadaGenerica);
 				
 				}else {
-					jugadasB = jugadasB.siguienteJUgada();
+					JugadaGenerica = arbolJugadasB.siguienteJugada(JugadaGenerica);
 				}
 				
+				
+				//Cambia de equipo
+				if(JugadaGenerica.isCambioEquipo()) {	
+					
+					System.out.println("     ************(CAMBIO)*************    ");
+					
+					
+					if(quienJuega == 'A') {
+						quienJuega = 'B';
+					}else {
+						quienJuega = 'A';
+					}
+				}
 				
 				i++;
 			}while(i<100); 
@@ -51,3 +84,10 @@ public class Partido {
 	}
 
 }
+
+
+
+//EL ANTERIOR RECORDANDO
+
+//RECURSIVIDAD
+//HASHMAP

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import co.com.futbol.actores.Equipo;
 import co.com.futbol.actores.Jugada;
 
+
 public class ArbolJugadas {
 
 	Jugada inicio = new Jugada("<Inico>");
@@ -37,6 +38,11 @@ public class ArbolJugadas {
 	
 	
 	Equipo equipo;
+	int ATAQUE  ;
+	int DEFENSA ;
+	int MEDIO   ;
+	int PORTERO ;
+	String NOMBRE_EQUIPO;
 	
 	
 	
@@ -44,10 +50,11 @@ public class ArbolJugadas {
 	public ArbolJugadas(Equipo equipo) {
 		
 		
-		int ATAQUE  = equipo.getAtaque();
-		int DEFENSA = equipo.getDefensa();
-		int MEDIO   = equipo.getMedio();
-		int PORTERO = equipo.getPortero();
+		ATAQUE  = equipo.getAtaque();
+		DEFENSA = equipo.getDefensa();
+		MEDIO   = equipo.getMedio();
+		PORTERO = equipo.getPortero();
+		NOMBRE_EQUIPO = equipo.getNombre();
 		
 		try {
 			
@@ -84,15 +91,31 @@ public class ArbolJugadas {
 		System.out.println("Se carga el arbol de jugadas");
 	}
 	
-	public Jugada iniciarPartido() {		
+	public Jugada iniciarPartido() {	
 		
-		return inicio.siguienteJUgada();	
+		Jugada siguienteJ = inicio.siguienteJUgada();
+		System.err.println(siguienteJ.getNombre());
+		System.err.println(NOMBRE_EQUIPO);
+		
+		return siguienteJ;	
+	}
+	
+	public Jugada siguienteJugada(Jugada jugada) {	
+		
+		Jugada siguienteJ = jugada.siguienteJUgada();
+		System.err.println(siguienteJ.getNombre());
+		System.err.println(NOMBRE_EQUIPO);
+		
+		return siguienteJ;	
 	}
 	
 	
 	
-	// TODO Definir el cambio de balon o cambio de jugada como va a ser.
-	//TODO cambio posesion definir tiempo probar un partido
+	//TODO [X] Definir el cambio de balon o cambio de jugada como va a ser.
+	//TODO [X] cambio posesion   
+	//TODO [] definir  tiempo probar un partido
+	//TODO [] PROBAR EL CAMBIO DE JUGADA QUE TENGA COHERENCIA
+	//TODO [] Afectar las probabilidades segun las caracteristicas
 
 
 }
