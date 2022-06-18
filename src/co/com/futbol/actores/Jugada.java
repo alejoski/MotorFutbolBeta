@@ -1,7 +1,6 @@
 package co.com.futbol.actores;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Jugada implements Cloneable {
@@ -10,6 +9,7 @@ public class Jugada implements Cloneable {
 	private int probabilidad = 100;
 	private Jugada[] JugadasSiguientes;
 	private boolean cambioEquipo = false;
+	
 
 
 	public Jugada clone() throws CloneNotSupportedException {
@@ -32,6 +32,7 @@ public class Jugada implements Cloneable {
 	public Jugada siguienteJUgada() {
 
 		System.out.println("---------------------");
+		System.out.println("<<" + this.nombre + ">>");
 
 		HashMap<Integer, Jugada> posibilidaes = new HashMap<>();
 		int i = 1;
@@ -42,8 +43,8 @@ public class Jugada implements Cloneable {
 
 			posibilidaes.put(i, jugada);
 			sumaTotal += jugada.getProbabilidad();
-			// System.err.println(" i " + i + " " + jugada.getNombre());
-			// System.out.println("Probabilidad Jugada > " + jugada.getProbabilidad());
+			 System.err.println(" i " + i + " " + jugada.getNombre());
+			System.out.println("Probabilidad Jugada > " + jugada.getProbabilidad());
 
 			for (int j = 0; j < jugada.getProbabilidad(); j++) {
 				opciones.add(i);
@@ -64,7 +65,6 @@ public class Jugada implements Cloneable {
 		int x = (int) (Math.random() * max);
 		System.out.println("Valor aleatorio <" + x + ">");
 		return x;
-
 	}
 
 	/*
@@ -72,6 +72,15 @@ public class Jugada implements Cloneable {
 	 */
 	public void alt(Jugada... jugadasSiguientes) {
 		JugadasSiguientes = jugadasSiguientes;
+	}
+	
+	public void alt(int afectacion , Jugada... jugadasSiguientes) {
+		modificaProbabilidad(afectacion);
+		JugadasSiguientes = jugadasSiguientes;
+	}
+	
+	private void modificaProbabilidad(int afectacion) {
+		setProbabilidad(getProbabilidad() + afectacion);
 	}
 
 	public void setNombre(String nombre) {
@@ -113,6 +122,7 @@ public class Jugada implements Cloneable {
 	public void setCambioEquipo(boolean cambioEquipo) {
 		this.cambioEquipo = cambioEquipo;
 	}
+
 
 	@Override
 	public String toString() {

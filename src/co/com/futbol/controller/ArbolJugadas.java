@@ -42,9 +42,10 @@ public class ArbolJugadas {
 	int DEFENSA ;
 	int MEDIO   ;
 	int PORTERO ;
-	String NOMBRE_EQUIPO;
-	
-	
+	int TIROS ;
+	int PASES;
+	int CONTRAGOLPE;
+	String NOMBRE_EQUIPO;	
 	
 
 	public ArbolJugadas(Equipo equipo) {
@@ -55,6 +56,10 @@ public class ArbolJugadas {
 		MEDIO   = equipo.getMedio();
 		PORTERO = equipo.getPortero();
 		NOMBRE_EQUIPO = equipo.getNombre();
+		TIROS = equipo.getEfectividadTiros();
+		PASES = equipo.getEfectividadPases();
+		CONTRAGOLPE = equipo.getEfectividadContragolpe();
+		
 		
 		try {
 			
@@ -64,7 +69,7 @@ public class ArbolJugadas {
 			paseAdelante.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
 			paseAtras.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
 			paseAlPortero.alt(paseAdelante);
-			TiroAlArco.alt(gol, palo,PorFuera);
+			TiroAlArco.alt(TIROS, gol, palo,PorFuera); // TODO CORREGIR
 			PorFuera.alt(cambioPosesion);
 			palo.alt(cambioPosesion);
 			gol.alt(saqueMitadCancha);
@@ -116,6 +121,8 @@ public class ArbolJugadas {
 	//TODO [] definir  tiempo probar un partido
 	//TODO [] PROBAR EL CAMBIO DE JUGADA QUE TENGA COHERENCIA
 	//TODO [] Afectar las probabilidades segun las caracteristicas
+	
+	//TODO [] La afectacion noquedo bien REVISAR
 
 
 }

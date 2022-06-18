@@ -7,7 +7,7 @@ public class Equipo {
 	private int defensa;
 	private int medio;
 	private int ataque;
-	private int EfectividadTiros;
+	private int efectividadTiros;
 	private int efectividadPases;
 	private int efectividadContragolpe;
 	
@@ -17,14 +17,14 @@ public class Equipo {
 		
 	}
 
-	public Equipo(String nombre, int portero, int defensa, int medio, int ataque, int EfectividadTiros, int efectividadPases, int efectividadContragolpe) {
+	public Equipo(String nombre, int portero, int defensa, int medio, int ataque, int efectividadTiros, int efectividadPases, int efectividadContragolpe) {
 		super();
 		this.nombre = nombre;
 		this.portero = portero;
 		this.defensa = defensa;
 		this.medio = medio;
 		this.ataque = ataque;
-		this.EfectividadTiros = EfectividadTiros; 
+		this.efectividadTiros = efectividadTiros; 
 		this.efectividadPases= efectividadPases; 
 		this.efectividadContragolpe = efectividadContragolpe;
 		
@@ -74,11 +74,11 @@ public class Equipo {
 	}
 
 	public int getEfectividadTiros() {
-		return EfectividadTiros;
+		return efectividadTiros;
 	}
 
 	public void setEfectividadTiros(int efectividadTiros) {
-		EfectividadTiros = efectividadTiros;
+		efectividadTiros = efectividadTiros;
 	}
 
 	public int getEfectividadPases() {
@@ -100,7 +100,7 @@ public class Equipo {
 	@Override
 	public String toString() {
 		return "Equipo [nombre=" + nombre + ", portero=" + portero + ", defensa=" + defensa + ", medio=" + medio
-				+ ", ataque=" + ataque + ", EfectividadTiros=" + EfectividadTiros + ", efectividadPases="
+				+ ", ataque=" + ataque + ", EfectividadTiros=" + efectividadTiros + ", efectividadPases="
 				+ efectividadPases + ", efectividadContragolpe=" + efectividadContragolpe + "]";
 	}
 	
