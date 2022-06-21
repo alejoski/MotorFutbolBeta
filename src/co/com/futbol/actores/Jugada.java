@@ -9,6 +9,7 @@ public class Jugada implements Cloneable {
 	private int probabilidad = 100;
 	private Jugada[] JugadasSiguientes;
 	private boolean cambioEquipo = false;
+	private int afectacion;
 	
 
 
@@ -68,19 +69,20 @@ public class Jugada implements Cloneable {
 	}
 
 	/*
-	 * Alt: Alternaticas, jugadas posibles apartir de esta jugada
+	 * Alt: Alternativas, jugadas posibles apartir de esta jugada
 	 */
-	public void alt(Jugada... jugadasSiguientes) {
+	public void alteratives(Jugada... jugadasSiguientes) {
 		JugadasSiguientes = jugadasSiguientes;
 	}
 	
-	public void alt(int afectacion , Jugada... jugadasSiguientes) {
-		modificaProbabilidad(afectacion);
+	public void alternatives(int afectacion , Jugada... jugadasSiguientes) {
+		setAfectacion(afectacion);
+		modificaProbabilidad();
 		JugadasSiguientes = jugadasSiguientes;
 	}
 	
-	private void modificaProbabilidad(int afectacion) {
-		setProbabilidad(getProbabilidad() + afectacion);
+	private void modificaProbabilidad() {
+		setProbabilidad(this.probabilidad + this.afectacion);
 	}
 
 	public void setNombre(String nombre) {
@@ -107,11 +109,21 @@ public class Jugada implements Cloneable {
 		this.probabilidad = probabilidad;
 	}
 
+	public int getAfectacion() {
+		return afectacion;
+	}
+
+	public void setAfectacion(int afectacion) {
+		this.afectacion = afectacion;
+	}
+
 	/*
-	 * sP: Set Posibilidades, Establece las posibilidades de cada alternativa
+	 * sP: Set Posibilidades, Establece las posibilidades de cada alternativa,
+	 * asegurandose que se creen instancias diferentes de cada jugada (Clone)
 	 */
-	public Jugada sP(int probabilidad) throws CloneNotSupportedException {
+	public Jugada setProb(int probabilidad) throws CloneNotSupportedException {
 		setProbabilidad(probabilidad);
+		modificaProbabilidad();
 		return this.clone();
 	}
 	

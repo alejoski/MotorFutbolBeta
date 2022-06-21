@@ -63,31 +63,32 @@ public class ArbolJugadas {
 		
 		try {
 			
-			inicio.alt(jugadaInicial);
-			jugadaInicial.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);	
-			saqueMitadCancha.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAdelante.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAtras.alt(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAlPortero.alt(paseAdelante);
-			TiroAlArco.alt(TIROS, gol, palo,PorFuera); // TODO CORREGIR
-			PorFuera.alt(cambioPosesion);
-			palo.alt(cambioPosesion);
-			gol.alt(saqueMitadCancha);
-			cambioPosesion.alt(saquePortero);
-			saquePortero.alt(paseAdelante, TiroAlArco);
+			//Establece las alternativas de cada jugadas
+			inicio.alteratives(jugadaInicial);
+			jugadaInicial.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);	
+			saqueMitadCancha.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAdelante.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAtras.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAlPortero.alteratives(paseAdelante);
+			TiroAlArco.alternatives(TIROS, gol, palo,PorFuera); // TODO CORREGIR
+			PorFuera.alteratives(cambioPosesion);
+			palo.alteratives(cambioPosesion);
+			gol.alteratives(saqueMitadCancha);
+			cambioPosesion.alteratives(saquePortero);
+			saquePortero.alteratives(paseAdelante, TiroAlArco);
 			
 			
-			jugadaInicial.alt(TiroAlArco.sP(2), paseAlPortero.sP(20), paseAtras.sP(40), paseAdelante.sP(38));	
-			saqueMitadCancha.alt(TiroAlArco.sP(2), paseAlPortero.sP(20), paseAtras.sP(40), paseAdelante.sP(38));
-			paseAdelante.alt(TiroAlArco.sP(10), paseAlPortero.sP(2), paseAtras.sP(30), paseAdelante.sP(53));
-			paseAtras.alt(TiroAlArco.sP(4), paseAlPortero.sP(10), paseAtras.sP(30), paseAdelante.sP(56));
-			paseAlPortero.alt(paseAdelante);
-			TiroAlArco.alt(gol.sP(20), palo.sP(10),PorFuera.sP(70));
-			PorFuera.alt(cambioPosesion);
-			palo.alt(cambioPosesion);
-			gol.alt(saqueMitadCancha);
-			cambioPosesion.alt(saquePortero);
-			saquePortero.alt(paseAdelante.sP(90), TiroAlArco.sP(10));
+			jugadaInicial.alteratives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));	
+			saqueMitadCancha.alteratives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));
+			paseAdelante.alteratives(TiroAlArco.setProb(10), paseAlPortero.setProb(2), paseAtras.setProb(30), paseAdelante.setProb(53));
+			paseAtras.alteratives(TiroAlArco.setProb(4), paseAlPortero.setProb(10), paseAtras.setProb(30), paseAdelante.setProb(56));
+			paseAlPortero.alteratives(paseAdelante);
+			TiroAlArco.alteratives(gol.setProb(20), palo.setProb(10),PorFuera.setProb(70));
+			PorFuera.alteratives(cambioPosesion);
+			palo.alteratives(cambioPosesion);
+			gol.alteratives(saqueMitadCancha);
+			cambioPosesion.alteratives(saquePortero);
+			saquePortero.alteratives(paseAdelante.setProb(90), TiroAlArco.setProb(10));
 		
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
@@ -121,8 +122,9 @@ public class ArbolJugadas {
 	//TODO [] definir  tiempo probar un partido
 	//TODO [] PROBAR EL CAMBIO DE JUGADA QUE TENGA COHERENCIA
 	//TODO [] Afectar las probabilidades segun las caracteristicas
+	//TODO [] llevar conteo de goles
 	
-	//TODO [] La afectacion noquedo bien REVISAR
+	//TODO [X] La afectacion noquedo bien REVISAR
 
 
 }
