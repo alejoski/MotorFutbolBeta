@@ -7,7 +7,7 @@ public class Jugada implements Cloneable {
 
 	private String nombre = "";
 	private int probabilidad = 100;
-	private Jugada[] JugadasSiguientes;
+	private Jugada[] JugadasSiguientes = new Jugada[] {} ;
 	private boolean cambioEquipo = false;
 	private int afectacion;
 	
@@ -79,6 +79,15 @@ public class Jugada implements Cloneable {
 		setAfectacion(afectacion);
 		modificaProbabilidad();
 		JugadasSiguientes = jugadasSiguientes;
+	}
+	
+	public void alternatives(int afectacion , Jugada jugadasSiguientes) {
+		setAfectacion(afectacion);
+		modificaProbabilidad();
+		JugadasSiguientes = new Jugada[] {jugadasSiguientes};
+		
+
+		
 	}
 	
 	private void modificaProbabilidad() {

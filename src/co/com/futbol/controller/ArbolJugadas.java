@@ -31,6 +31,8 @@ public class ArbolJugadas {
 	Jugada jugadaInicial = new Jugada("El Referí indica el inicio");
 	
 	Jugada saqueMitadCancha= new Jugada("El Referí reinica el partido");
+	
+	Jugada porteroDetieneBalon = new Jugada("El Portero detiene el balon");
 
 /*
  * Se deben definir variables o algunmecanismo que diferencia si es un pase adelante en area contraria o aria propia
@@ -70,12 +72,13 @@ public class ArbolJugadas {
 			paseAdelante.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
 			paseAtras.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
 			paseAlPortero.alteratives(paseAdelante);
-			TiroAlArco.alternatives(TIROS, gol, palo,PorFuera); // TODO CORREGIR
+			TiroAlArco.alternatives(TIROS, gol, palo,PorFuera, porteroDetieneBalon); // TODO CORREGIR
 			PorFuera.alteratives(cambioPosesion);
 			palo.alteratives(cambioPosesion);
 			gol.alteratives(saqueMitadCancha);
 			cambioPosesion.alteratives(saquePortero);
-			saquePortero.alteratives(paseAdelante, TiroAlArco);
+			saquePortero.alteratives(paseAdelante, TiroAlArco);					
+			porteroDetieneBalon.alternatives(PORTERO, saquePortero);
 			
 			
 			jugadaInicial.alteratives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));	
@@ -83,7 +86,7 @@ public class ArbolJugadas {
 			paseAdelante.alteratives(TiroAlArco.setProb(10), paseAlPortero.setProb(2), paseAtras.setProb(30), paseAdelante.setProb(53));
 			paseAtras.alteratives(TiroAlArco.setProb(4), paseAlPortero.setProb(10), paseAtras.setProb(30), paseAdelante.setProb(56));
 			paseAlPortero.alteratives(paseAdelante);
-			TiroAlArco.alteratives(gol.setProb(20), palo.setProb(10),PorFuera.setProb(70));
+			TiroAlArco.alteratives(gol.setProb(20), palo.setProb(10),PorFuera.setProb(70), porteroDetieneBalon);
 			PorFuera.alteratives(cambioPosesion);
 			palo.alteratives(cambioPosesion);
 			gol.alteratives(saqueMitadCancha);
@@ -121,9 +124,9 @@ public class ArbolJugadas {
 	//TODO [X] cambio posesion   
 	//TODO [] definir  tiempo probar un partido
 	//TODO [] PROBAR EL CAMBIO DE JUGADA QUE TENGA COHERENCIA
-	//TODO [] Afectar las probabilidades segun las caracteristicas
-	//TODO [] llevar conteo de goles
-	
+
+	//TODO [X] Afectar las probabilidades segun las caracteristicas
+	//TODO [X] llevar conteo de goles	
 	//TODO [X] La afectacion noquedo bien REVISAR
 
 

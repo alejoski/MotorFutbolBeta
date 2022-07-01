@@ -10,6 +10,11 @@ public class Partido {
 	private char quienJuega = 'A';
 	private Jugada JugadaGenerica = null;
 	private int tiempo = 0;
+	private int GolesA = 0;
+	private int GolesB = 0;
+	Equipo equipoA = null;
+	Equipo equipoB = null;
+	
 
 	public Partido() {
 		
@@ -17,13 +22,13 @@ public class Partido {
 		// Inicializa equipo A
 		String nombreEquipoA = "Colombia";
 		int porteroA = 20, defensaA = 30, medioA = 40, ataqueA = 45, tirosArcoA = 20, pasesA = 15, contraGolpeA = 35;
-		Equipo equipoA = new Equipo(nombreEquipoA, porteroA, defensaA, medioA, ataqueA, tirosArcoA, pasesA,
+		equipoA = new Equipo(nombreEquipoA, porteroA, defensaA, medioA, ataqueA, tirosArcoA, pasesA,
 				contraGolpeA);
 
 		// Inicializa equipo B
 		String nombreEquipoB = "Peru";
 		int porteroB = 30, defensaB = 40, medioB = 20, ataqueB = 35, tirosArcoB = 20, pasesB = 15, contraGolpeB = 35;
-		Equipo equipoB = new Equipo(nombreEquipoB, porteroB, defensaB, medioB, ataqueB, tirosArcoB, pasesB,
+		equipoB = new Equipo(nombreEquipoB, porteroB, defensaB, medioB, ataqueB, tirosArcoB, pasesB,
 				contraGolpeB);
 
 		arbolJugadasA = new ArbolJugadas(equipoA);
@@ -55,14 +60,36 @@ public class Partido {
 			JugadaGenerica = arbolJugadasB.siguienteJugada(JugadaGenerica);
 		
 		// Cuando una Jugada implica cambio de equipo, cambia el arbol de jugadas
-		if (JugadaGenerica.isCambioEquipo()) 
+		if (JugadaGenerica.isCambioEquipo()) { 
+			
+			if(JugadaGenerica.getNombre().equals("Gol")) {
+				
+				if(quienJuega == 'A') {
+					//Aumenta cuenta de goles
+					GolesA += 1;
+					//Cambia de posesion el balon
+					quienJuega = 'B';
+				
+				}else if (quienJuega == 'B') {
+					GolesB += 1;
+					
+				}
+					
+				
+			}
+			
 			quienJuega = (quienJuega == 'A'?'B':'A');
+		
+			
+		}
 
 		//Monitorea el tiempo de Juego (45 Minutos)
 		if(!terminaTiempo())
 			return enJuego();
-		else 
+		else {
+			System.out.println(equipoA.getNombre() + " "+ GolesA + " "+ equipoB.getNombre() + " "+ GolesB);
 			return false;
+		}
 				
 		
 	}
