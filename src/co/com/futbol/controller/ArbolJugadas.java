@@ -124,6 +124,9 @@ public class ArbolJugadas {
 	//TODO [X] cambio posesion   
 	//TODO [] definir  tiempo probar un partido
 	//TODO [] PROBAR EL CAMBIO DE JUGADA QUE TENGA COHERENCIA
+	//TODO [] Configiurar push
+	//TODO [] Probar la jugada porteroDetieneBalon, poner porcentajes
+	
 
 	//TODO [X] Afectar las probabilidades segun las caracteristicas
 	//TODO [X] llevar conteo de goles	

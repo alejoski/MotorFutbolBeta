@@ -2,3 +2,7 @@
 bin/
 /bin
 bin/co/com/
+*.class
+hola/
+bin/*.*
+bin/co/com/futbol/main/PatadaInicial.class
