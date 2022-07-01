@@ -10,29 +10,31 @@ public class ArbolJugadas {
 
 	Jugada inicio = new Jugada("<Inico>");
 	
-	Jugada cambioPosesion = new Jugada("Cambio Posesion");
+	Jugada cambioPosesion = new Jugada("Cambio Posesion", 15L);
 	
-	Jugada saquePortero  = new Jugada("El portero despeja el balon");
+	Jugada saquePortero  = new Jugada("El portero despeja el balon", 15L);
 	
-	Jugada gol           = new Jugada("Gol", true);
+	Jugada gol           = new Jugada("Gol", 15L, true);
 
-	Jugada palo          = new Jugada("Palazo!!!");
+	Jugada palo          = new Jugada("Palazo!!!", 15L);
 
-	Jugada PorFuera      = new Jugada("El tiro sale desviado", true);
+	Jugada PorFuera      = new Jugada("El tiro sale desviado", 15L,  true);
 
-	Jugada TiroAlArco    = new Jugada("Tiro al arco");
+	Jugada TiroAlArco    = new Jugada("Tiro al arco", 15L);
 
-	Jugada paseAlPortero = new Jugada("Pasan el balon Al portero");
+	Jugada paseAlPortero = new Jugada("Pasan el balon Al portero", 15L);
 	
-	Jugada paseAtras     = new Jugada("Pasan el balon hacia Atras");
+	Jugada paseAtras     = new Jugada("Pasan el balon hacia Atras", 15L);
 
-	Jugada paseAdelante  = new Jugada("Pasan el balon hacia adelante");
+	Jugada paseAdelante  = new Jugada("Pasan el balon hacia adelante", 15L);
 
-	Jugada jugadaInicial = new Jugada("El Referí indica el inicio");
+	Jugada jugadaInicial = new Jugada("El Referí indica el inicio", 15L);
 	
-	Jugada saqueMitadCancha= new Jugada("El Referí reinica el partido");
+	Jugada saqueMitadCancha= new Jugada("El Referí reinica el partido", 15L);
 	
-	Jugada porteroDetieneBalon = new Jugada("El Portero detiene el balon");
+	Jugada porteroDetieneBalon = new Jugada("El Portero detiene el balon", 15L);
+	
+	Jugada pierdenBalonPase = new Jugada("El equipo contrario recupera el balon", 15L, true);
 
 /*
  * Se deben definir variables o algunmecanismo que diferencia si es un pase adelante en area contraria o aria propia
@@ -53,45 +55,56 @@ public class ArbolJugadas {
 	public ArbolJugadas(Equipo equipo) {
 		
 		
-		ATAQUE  = equipo.getAtaque();
-		DEFENSA = equipo.getDefensa();
+		ATAQUE  = equipo.getAtaque();//
+		DEFENSA = equipo.getDefensa();//
 		MEDIO   = equipo.getMedio();
-		PORTERO = equipo.getPortero();
-		NOMBRE_EQUIPO = equipo.getNombre();
+		PORTERO = equipo.getPortero();//
+		NOMBRE_EQUIPO = equipo.getNombre();//
 		TIROS = equipo.getEfectividadTiros();
 		PASES = equipo.getEfectividadPases();
 		CONTRAGOLPE = equipo.getEfectividadContragolpe();
 		
 		
 		try {
+			System.out.println("############# " + NOMBRE_EQUIPO +  " ############# ");
 			
 			//Establece las alternativas de cada jugadas
-			inicio.alteratives(jugadaInicial);
-			jugadaInicial.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);	
-			saqueMitadCancha.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAdelante.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAtras.alteratives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
-			paseAlPortero.alteratives(paseAdelante);
-			TiroAlArco.alternatives(TIROS, gol, palo,PorFuera, porteroDetieneBalon); // TODO CORREGIR
-			PorFuera.alteratives(cambioPosesion);
-			palo.alteratives(cambioPosesion);
-			gol.alteratives(saqueMitadCancha);
-			cambioPosesion.alteratives(saquePortero);
-			saquePortero.alteratives(paseAdelante, TiroAlArco);					
+			
+			inicio.alternatives(jugadaInicial);
+			jugadaInicial.alternatives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);	
+			saqueMitadCancha.alternatives(TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAdelante.alternatives(ATAQUE, TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAtras.alternatives(DEFENSA, TiroAlArco, paseAlPortero, paseAtras, paseAdelante);
+			paseAlPortero.alternatives(DEFENSA, paseAdelante);
+			TiroAlArco.alternatives(ATAQUE, gol, palo,PorFuera, porteroDetieneBalon); // TODO CORREGIR
+			PorFuera.alternatives(cambioPosesion);
+			palo.alternatives(cambioPosesion);
+			gol.alternatives(TIROS, saqueMitadCancha);
+			cambioPosesion.alternatives(saquePortero);
+			saquePortero.alternatives(paseAdelante, TiroAlArco);					
 			porteroDetieneBalon.alternatives(PORTERO, saquePortero);
+			pierdenBalonPase.alternatives(-PASES, paseAdelante, paseAtras, TiroAlArco);
+			
+			/* AVANZA CON EL BALON*/
+			
+
+			
+			jugadaInicial.alternatives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));	
+			saqueMitadCancha.alternatives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));
+			paseAdelante.alternatives(TiroAlArco.setProb(10), paseAlPortero.setProb(2), paseAtras.setProb(30), paseAdelante.setProb(53));
+			paseAtras.alternatives(TiroAlArco.setProb(5), paseAlPortero.setProb(10), paseAtras.setProb(20), paseAdelante.setProb(40), pierdenBalonPase.setProb(25));
+			paseAlPortero.alternatives(paseAdelante);
+			TiroAlArco.alternatives(gol.setProb(10), palo.setProb(5),PorFuera.setProb(45), porteroDetieneBalon.setProb(35));
+			PorFuera.alternatives(cambioPosesion);
+			palo.alternatives(cambioPosesion);
+			gol.alternatives(saqueMitadCancha);
+			cambioPosesion.alternatives(saquePortero);
+			saquePortero.alternatives(paseAdelante.setProb(90), TiroAlArco.setProb(10));
+			porteroDetieneBalon.alternatives(saquePortero);
+			pierdenBalonPase.alternatives(paseAdelante.setProb(35), paseAtras.setProb(35), TiroAlArco.setProb(30));
 			
 			
-			jugadaInicial.alteratives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));	
-			saqueMitadCancha.alteratives(TiroAlArco.setProb(2), paseAlPortero.setProb(20), paseAtras.setProb(40), paseAdelante.setProb(38));
-			paseAdelante.alteratives(TiroAlArco.setProb(10), paseAlPortero.setProb(2), paseAtras.setProb(30), paseAdelante.setProb(53));
-			paseAtras.alteratives(TiroAlArco.setProb(4), paseAlPortero.setProb(10), paseAtras.setProb(30), paseAdelante.setProb(56));
-			paseAlPortero.alteratives(paseAdelante);
-			TiroAlArco.alteratives(gol.setProb(20), palo.setProb(10),PorFuera.setProb(70), porteroDetieneBalon);
-			PorFuera.alteratives(cambioPosesion);
-			palo.alteratives(cambioPosesion);
-			gol.alteratives(saqueMitadCancha);
-			cambioPosesion.alteratives(saquePortero);
-			saquePortero.alteratives(paseAdelante.setProb(90), TiroAlArco.setProb(10));
+
 		
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
@@ -103,8 +116,8 @@ public class ArbolJugadas {
 	public Jugada iniciarPartido() {	
 		
 		Jugada siguienteJ = inicio.siguienteJUgada();
-		System.err.println(siguienteJ.getNombre());
-		System.err.println(NOMBRE_EQUIPO);
+		
+		System.out.println("+- " + NOMBRE_EQUIPO + " -+ " + siguienteJ.getNombre() + " -+");
 		
 		return siguienteJ;	
 	}
@@ -112,9 +125,8 @@ public class ArbolJugadas {
 	public Jugada siguienteJugada(Jugada jugada) {	
 		
 		Jugada siguienteJ = jugada.siguienteJUgada();
-		System.err.println(siguienteJ.getNombre());
-		System.err.println(NOMBRE_EQUIPO);
 		
+		System.out.println("-+ " +NOMBRE_EQUIPO + " +- " + siguienteJ.getNombre() + " +-");
 		return siguienteJ;	
 	}
 	

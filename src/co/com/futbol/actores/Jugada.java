@@ -10,6 +10,7 @@ public class Jugada implements Cloneable {
 	private Jugada[] JugadasSiguientes = new Jugada[] {} ;
 	private boolean cambioEquipo = false;
 	private int afectacion;
+	private Long duracionJugada;
 	
 
 
@@ -24,6 +25,17 @@ public class Jugada implements Cloneable {
 	public Jugada(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public Jugada(String nombre, Long duracionJugada) {
+		this.duracionJugada = duracionJugada;
+		this.nombre = nombre;
+	}
+	
+	public Jugada(String nombre, Long duracionJugada, boolean cambioEquipo) {
+		this.duracionJugada = duracionJugada;		
+		this.cambioEquipo = cambioEquipo;
+		this.nombre = nombre;
+	}
 
 	public Jugada(String nombre, boolean cambioEquipo) {
 		this.cambioEquipo = cambioEquipo;
@@ -32,7 +44,7 @@ public class Jugada implements Cloneable {
 
 	public Jugada siguienteJUgada() {
 
-		System.out.println("---------------------");
+		System.out.println("----------*-----------");
 		System.out.println("<<" + this.nombre + ">>");
 
 		HashMap<Integer, Jugada> posibilidaes = new HashMap<>();
@@ -44,8 +56,7 @@ public class Jugada implements Cloneable {
 
 			posibilidaes.put(i, jugada);
 			sumaTotal += jugada.getProbabilidad();
-			 System.err.println(" i " + i + " " + jugada.getNombre());
-			System.out.println("Probabilidad Jugada > " + jugada.getProbabilidad());
+			System.err.println("      *i " + i + " " + jugada.getNombre() + " Prob > " + jugada.getProbabilidad());
 
 			for (int j = 0; j < jugada.getProbabilidad(); j++) {
 				opciones.add(i);
@@ -71,14 +82,16 @@ public class Jugada implements Cloneable {
 	/*
 	 * Alt: Alternativas, jugadas posibles apartir de esta jugada
 	 */
-	public void alteratives(Jugada... jugadasSiguientes) {
+	public void alternatives(Jugada... jugadasSiguientes) {
 		JugadasSiguientes = jugadasSiguientes;
+		//imprimeInicializacion();
 	}
 	
 	public void alternatives(int afectacion , Jugada... jugadasSiguientes) {
 		setAfectacion(afectacion);
 		modificaProbabilidad();
 		JugadasSiguientes = jugadasSiguientes;
+		//imprimeInicializacion();
 	}
 	
 	public void alternatives(int afectacion , Jugada jugadasSiguientes) {
@@ -86,12 +99,23 @@ public class Jugada implements Cloneable {
 		modificaProbabilidad();
 		JugadasSiguientes = new Jugada[] {jugadasSiguientes};
 		
-
-		
+		//imprimeInicializacion();
 	}
 	
+	public void imprimeInicializacion() {
+		
+		System.out.println(nombre + " Probabilidad: " + probabilidad + " | afectacion: " + afectacion);
+	}
+
 	private void modificaProbabilidad() {
-		setProbabilidad(this.probabilidad + this.afectacion);
+		//imprimeInicializacion();
+		if (this.afectacion < -1 && (afectacion + probabilidad) < 0) 			
+			setProbabilidad(3);
+		else
+			setProbabilidad(this.probabilidad + this.afectacion);
+		
+		//imprimeInicializacion();
+		
 	}
 
 	public void setNombre(String nombre) {
@@ -144,6 +168,14 @@ public class Jugada implements Cloneable {
 		this.cambioEquipo = cambioEquipo;
 	}
 
+
+	public Long getDuracionJugada() {
+		return duracionJugada;
+	}
+
+	public void setDuracionJugada(Long duracionJugada) {
+		this.duracionJugada = duracionJugada;
+	}
 
 	@Override
 	public String toString() {

@@ -1,5 +1,7 @@
 package co.com.futbol.controller;
 
+import java.time.Duration;
+
 import co.com.futbol.actores.Equipo;
 import co.com.futbol.actores.Jugada;
 
@@ -15,13 +17,20 @@ public class Partido {
 	Equipo equipoA = null;
 	Equipo equipoB = null;
 	
+	Duration duration = Duration.ofMinutes( 0L );
+	Duration durationStandar = Duration.ofMinutes( 45L );
+	
 
 	public Partido() {
+		
+
+		
+		
 		
 		
 		// Inicializa equipo A
 		String nombreEquipoA = "Colombia";
-		int porteroA = 20, defensaA = 30, medioA = 40, ataqueA = 45, tirosArcoA = 20, pasesA = 15, contraGolpeA = 35;
+		int porteroA = 40, defensaA = 55, medioA = 45, ataqueA = 56, tirosArcoA = 40, pasesA = 100, contraGolpeA = 40;
 		equipoA = new Equipo(nombreEquipoA, porteroA, defensaA, medioA, ataqueA, tirosArcoA, pasesA,
 				contraGolpeA);
 
@@ -84,6 +93,8 @@ public class Partido {
 		}
 
 		//Monitorea el tiempo de Juego (45 Minutos)
+		aumentaDuracion(JugadaGenerica.getDuracionJugada());
+		
 		if(!terminaTiempo())
 			return enJuego();
 		else {
@@ -95,12 +106,19 @@ public class Partido {
 	}
 	
 	public boolean terminaTiempo() {
-		tiempo++;
-		
-		if(tiempo < 100) 	
+		if(duration.getSeconds() < durationStandar.getSeconds()) 	
 			return false;
 		
 		return true;		
+	}
+	
+	
+	private void aumentaDuracion(Long t) {
+		
+		duration = duration.plusSeconds(t);		
+		
+		System.out.println("{{{{Tiempo}}}} " + duration.toMinutes());	
+		
 	}
 
 }
