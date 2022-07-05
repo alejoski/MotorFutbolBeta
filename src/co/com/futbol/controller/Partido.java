@@ -10,38 +10,33 @@ public class Partido {
 	private ArbolJugadas arbolJugadasA = null;
 	private ArbolJugadas arbolJugadasB = null;
 	private char quienJuega = 'A';
+	private char quienInicio = 'A';
+	private final String PRIMER_TIEMPO = "PrimerTiempo";
+	private final String SEGUNDO_TIEMPO = "SegundoTiempo";
 	private Jugada JugadaGenerica = null;
-	private int tiempo = 0;
 	private int GolesA = 0;
 	private int GolesB = 0;
-	Equipo equipoA = null;
-	Equipo equipoB = null;
-	
-	Duration duration = Duration.ofMinutes( 0L );
-	Duration durationStandar = Duration.ofMinutes( 45L );
-	
+	private Equipo equipoA = null;
+	private Equipo equipoB = null;
+	private String tiempoJuego = PRIMER_TIEMPO;
+
+	private Duration duration = Duration.ofMinutes(0L);
+	private Duration durationStandar = Duration.ofMinutes(45L);
 
 	public Partido() {
-		
 
-		
-		
-		
-		
 		// Inicializa equipo A
 		String nombreEquipoA = "Colombia";
-		int porteroA = 40, defensaA = 55, medioA = 45, ataqueA = 56, tirosArcoA = 40, pasesA = 100, contraGolpeA = 40;
-		equipoA = new Equipo(nombreEquipoA, porteroA, defensaA, medioA, ataqueA, tirosArcoA, pasesA,
-				contraGolpeA);
+		int porteroA = 50, defensaA = 60, medioA = 50, ataqueA = 65, tirosArcoA = 55, pasesA = 45, contraGolpeA = 50;
+		equipoA = new Equipo(nombreEquipoA, porteroA, defensaA, medioA, ataqueA, tirosArcoA, pasesA, contraGolpeA);
 
 		// Inicializa equipo B
 		String nombreEquipoB = "Peru";
-		int porteroB = 30, defensaB = 40, medioB = 20, ataqueB = 35, tirosArcoB = 20, pasesB = 15, contraGolpeB = 35;
-		equipoB = new Equipo(nombreEquipoB, porteroB, defensaB, medioB, ataqueB, tirosArcoB, pasesB,
-				contraGolpeB);
+		int porteroB = 48, defensaB = 57, medioB = 58, ataqueB = 62, tirosArcoB = 48, pasesB = 42, contraGolpeB = 48;
+		equipoB = new Equipo(nombreEquipoB, porteroB, defensaB, medioB, ataqueB, tirosArcoB, pasesB, contraGolpeB);
 
-		arbolJugadasA = new ArbolJugadas(equipoA);
-		arbolJugadasB = new ArbolJugadas(equipoB);
+		arbolJugadasA = new ArbolJugadas(equipoA, equipoB);
+		arbolJugadasB = new ArbolJugadas(equipoB, equipoA);
 
 		// TODO ACA SE PUEDE DECIDIR QUE EQUIPO INICIA EL PARTIDO
 
@@ -51,79 +46,112 @@ public class Partido {
 		Jugada jugadasA = arbolJugadasA.iniciarPartido();
 		Jugada jugadasB = arbolJugadasB.iniciarPartido();
 
-		//Seleccion aleatorea de quien inicia el partido, simula el lanzamiento de moneda
-		if ((int) (Math.random() * 2) == 0)
+		// Seleccion aleatorea de quien inicia el partido, simula el lanzamiento de
+		// moneda
+
+		int moneda = (int) (Math.random() * 10) + 1;
+		System.out.println("moneda " + moneda);
+
+		if (moneda <= 5) {
 			JugadaGenerica = jugadasA;
-		else
+			quienJuega = 'A';
+			System.out.println("INICIA COLOMBIA");
+		} else if (moneda > 5) {
 			JugadaGenerica = jugadasB;
-		
-		enJuego();
-	}
-	
-	public boolean enJuego() {
-		
-		//Determina quien esta jugando en ese momento
-		if (quienJuega == 'A') 
-			JugadaGenerica = arbolJugadasA.siguienteJugada(JugadaGenerica);
-		 else 
-			JugadaGenerica = arbolJugadasB.siguienteJugada(JugadaGenerica);
-		
-		// Cuando una Jugada implica cambio de equipo, cambia el arbol de jugadas
-		if (JugadaGenerica.isCambioEquipo()) { 
-			
-			if(JugadaGenerica.getNombre().equals("Gol")) {
-				
-				if(quienJuega == 'A') {
-					//Aumenta cuenta de goles
-					GolesA += 1;
-					//Cambia de posesion el balon
-					quienJuega = 'B';
-				
-				}else if (quienJuega == 'B') {
-					GolesB += 1;
-					
-				}
-					
-				
-			}
-			
-			quienJuega = (quienJuega == 'A'?'B':'A');
-		
-			
+			quienJuega = 'B';
+			System.out.println("INICIA PERU");
 		}
 
-		//Monitorea el tiempo de Juego (45 Minutos)
+		// El saque inicial lo realiza quien inicia jugando
+		quienInicio = quienJuega;
+
+		enJuego();
+	}
+
+	public boolean enJuego() {
+
+		// Determina quien esta jugando en ese momento
+		// TODO
+		// Aca tiene que sacar la equivalente a Jugada Generica pero del otro equipo
+		// para que haga cambio de probabilidade
+		/// Y no seiga por la misma linea
+		if (quienJuega == 'A') {
+			JugadaGenerica = arbolJugadasA.siguienteJugada(JugadaGenerica);
+		} else {
+			JugadaGenerica = arbolJugadasB.siguienteJugada(JugadaGenerica);
+		}
+
+		// Cuando una Jugada implica cambio de equipo, cambia el arbol de jugadas
+		if (JugadaGenerica.isCambioEquipo()) {
+
+			if (JugadaGenerica.getNombre().equals("Gol")) {
+
+				if (quienJuega == 'A') {
+					// Aumenta cuenta de goles
+					GolesA += 1;
+					// Cambia de posesion el balon
+					// quienJuega = 'B';
+
+				} else if (quienJuega == 'B') {
+					GolesB += 1;
+				}
+
+			}
+
+			quienJuega = (quienJuega == 'A' ? 'B' : 'A');
+
+		}
+
+		// Monitorea el tiempo de Juego (45 Minutos)
 		aumentaDuracion(JugadaGenerica.getDuracionJugada());
-		
-		if(!terminaTiempo())
+
+		if (!terminaTiempo())
 			return enJuego();
 		else {
-			System.out.println(equipoA.getNombre() + " "+ GolesA + " "+ equipoB.getNombre() + " "+ GolesB);
-			return false;
+
+			// Marcador al finalizar cada tiempo
+			System.out.println("MARCADOR  >> " + tiempoJuego + " [" + equipoA.getNombre() + " " + GolesA + " "
+					+ equipoB.getNombre() + " " + GolesB + "]");
+
+			if (tiempoJuego.equals(PRIMER_TIEMPO)) {
+
+				// Se resetea el cronometro
+				duration = Duration.ofMinutes(0L);
+
+				// Se establece el segundo tiempo de juego
+				tiempoJuego = SEGUNDO_TIEMPO;
+
+				// Se determina quien iniciará el segundo tiempo
+				if (quienInicio == 'A') {
+					quienJuega = 'B';
+					JugadaGenerica = arbolJugadasB.iniciarSegundoTiempo();
+				} else {
+					quienJuega = 'A';
+					JugadaGenerica = arbolJugadasA.iniciarSegundoTiempo();
+				}
+
+				return enJuego();
+
+			} else {
+				return false;
+			}
 		}
-				
-		
+
 	}
-	
+
 	public boolean terminaTiempo() {
-		if(duration.getSeconds() < durationStandar.getSeconds()) 	
+		if (duration.getSeconds() < durationStandar.getSeconds())
 			return false;
-		
-		return true;		
+
+		return true;
 	}
-	
-	
+
 	private void aumentaDuracion(Long t) {
-		
-		duration = duration.plusSeconds(t);		
-		
-		System.out.println("{{{{Tiempo}}}} " + duration.toMinutes());	
-		
+
+		duration = duration.plusSeconds(t);
+
+		// System.out.println("{{{{Tiempo}}}} " + duration.toMinutes());
+
 	}
 
 }
-
-//EL ANTERIOR RECORDANDO
-
-//RECURSIVIDAD
-//HASHMAP
