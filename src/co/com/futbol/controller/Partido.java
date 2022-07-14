@@ -69,6 +69,14 @@ public class Partido {
 	}
 
 	public boolean enJuego() {
+		
+		System.out.println("");
+		System.out.println("");
+		System.out.println("------------------------------------------------------------------------");
+
+		
+		System.out.println(quienJuega );
+
 
 		// Determina quien esta jugando en ese momento
 		// TODO
@@ -77,13 +85,20 @@ public class Partido {
 		/// Y no seiga por la misma linea
 		if (quienJuega == 'A') {
 			JugadaGenerica = arbolJugadasA.siguienteJugada(JugadaGenerica);
-		} else {
+		} else {//CONTINUAR
 			JugadaGenerica = arbolJugadasB.siguienteJugada(JugadaGenerica);
 		}
 
+		
+		System.out.println(quienJuega );
+		System.out.println(formateaTiempo()  +" "+ JugadaGenerica.getNombre() + " Prob " + JugadaGenerica.getProbabilidad() + " afectcion " + JugadaGenerica.getAfectacion());
+		
+
+		
+		
 		// Cuando una Jugada implica cambio de equipo, cambia el arbol de jugadas
 		if (JugadaGenerica.isCambioEquipo()) {
-
+			System.out.println("CAMBIO DE EQUIPO!!!");
 			if (JugadaGenerica.getNombre().equals("Gol")) {
 
 				if (quienJuega == 'A') {
@@ -97,20 +112,21 @@ public class Partido {
 				}
 
 			}
-
+			System.out.println("Quien juegaba  " + quienJuega);
 			quienJuega = (quienJuega == 'A' ? 'B' : 'A');
+			System.out.println("Quien juega ahora " + quienJuega);
 
 		}
 
 		// Monitorea el tiempo de Juego (45 Minutos)
 		aumentaDuracion(JugadaGenerica.getDuracionJugada());
 
-		if (!terminaTiempo())
+		if (!terminaTiempo()) {
 			return enJuego();
-		else {
+		}else {
 
 			// Marcador al finalizar cada tiempo
-			System.out.println("MARCADOR  >> " + tiempoJuego + " [" + equipoA.getNombre() + " " + GolesA + " "
+			System.out.println("MARCADOR  >> " + formateaTiempo() + " [" + equipoA.getNombre() + " " + GolesA + " "
 					+ equipoB.getNombre() + " " + GolesB + "]");
 
 			if (tiempoJuego.equals(PRIMER_TIEMPO)) {
@@ -145,13 +161,19 @@ public class Partido {
 
 		return true;
 	}
+	
+	private String  formateaTiempo() {
+		
+		long segundos = duration.getSeconds();
+		int min = (int)(segundos/60L);
+		int seg = (int)segundos - (min*60);		
+		
+		return min+":"+seg;
+	}
 
+	
 	private void aumentaDuracion(Long t) {
-
 		duration = duration.plusSeconds(t);
-
-		// System.out.println("{{{{Tiempo}}}} " + duration.toMinutes());
-
 	}
 
 }

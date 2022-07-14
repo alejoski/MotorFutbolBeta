@@ -8,9 +8,12 @@ public class Jugada implements Cloneable {
 	private int id;
 	private String nombre = "";
 	private int probabilidad = 100;
+	private int probPersonalizada = 100;
+	//private int probCalculada = 100;
+	
 	private Jugada[] JugadasSiguientes = new Jugada[] {} ;
 	private boolean cambioEquipo = false;
-	private int afectacion;
+	private int afectacion=0;
 	private Long duracionJugada;
 	
 
@@ -38,7 +41,7 @@ public class Jugada implements Cloneable {
 
 	public Jugada siguienteJUgada() {
 
-		System.out.println("<<" + this.nombre + ">>");
+		//System.out.println("<< " + this.nombre + " Prob " + this.probabilidad+ " Afectacion " + afectacion +    ">>");
 
 		HashMap<Integer, Jugada> posibilidaes = new HashMap<>();
 		int i = 1;
@@ -49,7 +52,7 @@ public class Jugada implements Cloneable {
 
 			posibilidaes.put(i, jugada);
 			sumaTotal += jugada.getProbabilidad();
-			System.out.println("      *i " + i + " " + jugada.getNombre() + " Prob > " + jugada.getProbabilidad());
+			//System.out.println("      *i " + i + " " + jugada.getNombre() + " Prob > " + jugada.getProbabilidad() + " Afec > "+ jugada.getAfectacion());
 
 			for (int j = 0; j < jugada.getProbabilidad(); j++) {
 				opciones.add(i);
@@ -61,8 +64,10 @@ public class Jugada implements Cloneable {
 		/*System.out.println("Suma total probabilidades > " + sumaTotal);
 		System.out.println(opciones.toString());
 		System.out.println("Tamaño arreglo [" + opciones.size() + "]");*/
-
-		return posibilidaes.get(opciones.get(randomId(opciones.size())));
+		
+		int random = randomId(opciones.size());
+		int indice = opciones.get(random);
+		return posibilidaes.get(indice);
 
 	}
 
@@ -76,24 +81,37 @@ public class Jugada implements Cloneable {
 	 * Alt: Alternativas, jugadas posibles apartir de esta jugada
 	 */
 	public void alternatives(Jugada... jugadasSiguientes) {
+		System.out.println("--------------***" + nombre + "***---------------------");
+			
 		JugadasSiguientes = jugadasSiguientes;
+		//modificaProbabilidad(); No se modifica probabilidad porque no se recibe aun el parametro de afectavcion y se puede llegar a modificar la probabilidad 
 		imprimeInicializacion();
 	}
 	
 	public void alternatives(int afectacion , Jugada... jugadasSiguientes) {
 		setAfectacion(afectacion);
-		modificaProbabilidad();
+		//modificaProbabilidad();
 		JugadasSiguientes = jugadasSiguientes;
 		//imprimeInicializacion();
 	}
 	
-	public void alternatives(int afectacion , Jugada jugadasSiguientes) {
-		setAfectacion(afectacion);
+	/*
+	 * sP: Set Posibilidades, Establece las posibilidades de cada alternativa,
+	 * asegurandose que se creen instancias diferentes de cada jugada (Clone)
+	 */
+	public Jugada setProb(int probabilidad) throws CloneNotSupportedException {
+		this.probPersonalizada = probabilidad;
 		modificaProbabilidad();
-		JugadasSiguientes = new Jugada[] {jugadasSiguientes};
-		
-		//imprimeInicializacion();
+		return this.clone();
 	}
+	
+	public Jugada setProb() throws CloneNotSupportedException {
+		setProbabilidad(probabilidad);//
+		modificaProbabilidad();
+		return this.clone();
+	}
+	
+
 	
 	public void imprimeInicializacion() {
 		
@@ -105,10 +123,15 @@ public class Jugada implements Cloneable {
 
 		//Si la afectacion es negativa y la diferencia entra la 
 		//Afactacion y la probabilidad es neggativa se deja en 5 la probabilidad
-		if ((afectacion + probabilidad) <= 0) 			
+		if ((afectacion + this.probPersonalizada) <= 0) { 			
+			System.out.println(nombre  + " afectacion " + afectacion  + " Probabiliad " + this.probPersonalizada + " Resultado " + 7);
 			setProbabilidad(7);
-		else
-			setProbabilidad(this.probabilidad + this.afectacion);		
+			
+		}else {
+			System.out.println(nombre  + " afectacion " + afectacion  + " Probabiliad " + this.probPersonalizada + " RESLTADO " + (this.probPersonalizada + this.afectacion));
+			setProbabilidad(this.probPersonalizada + this.afectacion);
+			
+		}
 		//imprimeInicializacion();
 		
 	}
@@ -145,15 +168,6 @@ public class Jugada implements Cloneable {
 		this.afectacion = afectacion;
 	}
 
-	/*
-	 * sP: Set Posibilidades, Establece las posibilidades de cada alternativa,
-	 * asegurandose que se creen instancias diferentes de cada jugada (Clone)
-	 */
-	public Jugada setProb(int probabilidad) throws CloneNotSupportedException {
-		setProbabilidad(probabilidad);
-		modificaProbabilidad();
-		return this.clone();
-	}
 	
 	public boolean isCambioEquipo() {
 		return cambioEquipo;
@@ -179,6 +193,8 @@ public class Jugada implements Cloneable {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+
 
 	@Override
 	public String toString() {
